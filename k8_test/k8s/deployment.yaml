@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-api
+  labels:
+    app: go-api
+spec:
+  selector:
+    matchLabels:
+      app: go-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: go-api
+    spec:
+      containers:
+        - name: go-api
+          image: 19112002/k8s:v14
+
+          resources:
+            requests:
+              cpu: "0.05"
+              memory: 20Mi
+            limits:
+              cpu: "0.05"
+              memory: 25Mi
+
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 3
+            failureThreshold: 30
+
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 3
+            failureThreshold: 1
+            # initialDelaySeconds: 10
+
+          livenessProbe:
+            httpGet: # HTTP / TCP / Exec (Command)
+              path: /healthz
+              port: 8080
+            periodSeconds: 5
+            failureThreshold: 1
+            timeoutSeconds: 1
+            successThreshold: 1
+            # initialDelaySeconds: 15
+
+          envFrom:
+            - configMapRef:
+                name: go-api-env
+            - secretRef:
+                name: go-api-secret
+          # env:
+          #   - name: NAME
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: go-api-env
+          #         key: NAME
+
+          volumeMounts:
+            - mountPath: "/go/myfamily"
+              name: config
+            - mountPath: "/go/pvc"
+              name: go-api-pvc
+
+      volumes:
+        - name: go-api-pvc
+          persistentVolumeClaim:
+            claimName: go-api-pvc
+        - name: config
+          configMap:
+            name: configmap-family
+            items:
+              - key: members
+                path: "family.txt"

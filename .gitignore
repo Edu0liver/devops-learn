@@ -1,0 +1,6 @@
+/terraform-k8s-clusters/.terraform/
+/terraform-k8s-clusters/.terraform.lock.hcl
+/terraform-k8s-clusters/credenciais.txt
+
+/terraform_test/.terraform/
+/terraform_test/.terraform.lock.hcl

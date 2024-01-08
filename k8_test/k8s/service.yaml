@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-api-service
+spec:
+  selector:
+    app: go-api
+  type: LoadBalancer # NodePort | LoadBalancer | ClusterIP | HeadlessService
+  ports:
+    - name: go-api-service
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+      # With NodePort
+      # nodePort: 30001 # 30000-32767
