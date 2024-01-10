@@ -4,3 +4,6 @@
 
 /terraform_test/.terraform/
 /terraform_test/.terraform.lock.hcl
+
+/terraform-own/.terraform/
+/terraform-own/.terraform.lock.hcl
