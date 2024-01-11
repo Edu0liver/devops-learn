@@ -32,4 +32,7 @@ module "my-ec2" {
   source        = "./modules/ec2"
   prefix        = var.prefix
   instance_type = var.instance_type
+  vpc_id        = module.my-vpc.vpc_id
+  subnet_id     = module.my-vpc.subnet_ids[0]
+  key_name      = var.key_name
 }
