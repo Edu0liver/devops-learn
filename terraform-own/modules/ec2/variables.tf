@@ -3,11 +3,6 @@ variable "prefix" {
   default = "my"
 }
 
-variable "vpc_cidr_block" {
-  type    = string
-  default = ""
-}
-
 variable "instance_type" {
   type    = string
   default = "t2.micro"
