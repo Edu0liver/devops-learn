@@ -41,7 +41,7 @@ resource "aws_security_group" "allow_ssh_http" {
   }
 }
 
-data "aws_key_pair" "ec2-terraform-key" {
+data "aws_key_pair" "ec2-key-pair" {
   key_name           = var.key_name
   include_public_key = true
 }
@@ -49,7 +49,7 @@ data "aws_key_pair" "ec2-terraform-key" {
 resource "aws_instance" "ec2-instance" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
-  key_name                    = data.aws_key_pair.ec2-terraform-key.key_name
+  key_name                    = data.aws_key_pair.ec2-key-pair.key_name
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [aws_security_group.allow_ssh_http.id]
   associate_public_ip_address = true
